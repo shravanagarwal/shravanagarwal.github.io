@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rirev Marketing Consultants</title>
+    <style>
+        @font-face {
+            font-family: 'Helvetica Now Text';
+            src: url('fonts/HelveticaNowText.72d14b854bb6168b0e872d4.8db6873543b01fce50e8a48e460ab570.otf') format('opentype');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Ivy Presto Text';
+            src: url('fonts/Ivy-Presto-Text-Semi-Bold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Ivy Presto Headline';
+            src: url('fonts/ivy-presto-headline.otf') format('opentype');
+            font-weight: 700;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Ivy Presto Display';
+            src: url('fonts/ivy-presto-display.otf') format('opentype');
+            font-weight: 700;
+            font-style: italic;
+            font-display: swap;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #090909;
+            --bg-secondary: #141414;
+            --bg-card: #1f1f1f;
+            --bg-hover: #242424;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #666666;
+            --border-color: #2a2a2a;
+            --accent: #b15432;
+            --accent-hover: #c4623c;
+            --accent-glow: rgba(177, 84, 50, 0.15);
+            --card-radius: 24px;
+            --spacing: 16px;
+            --font-display: 'Ivy Presto Text', Georgia, serif;
+            --font-body: 'Helvetica Now Text', Helvetica, Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* ──────── Section Headers ──────── */
+        .section-header {
+            margin-bottom: 32px;
+            padding-top: 40px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        /* ──────── Bento Grid ──────── */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing);
+            margin-bottom: 20px;
+        }
+
+        .hero-grid {
+            grid-template-columns: 1fr 2fr;
+        }
+
+        /* ──────── Case Studies 2x2 Grid ──────── */
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing);
+            margin-bottom: 20px;
+        }
+
+        .case-card {
+            position: relative;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            min-height: 380px;
+            border: 1px solid var(--border-color);
+            background: #0a0a0a;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        border-color 0.3s ease,
+                        box-shadow 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 16px 50px var(--accent-glow);
+        }
+
+        .case-card-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.6s ease, opacity 0.5s ease;
+        }
+
+        .case-card-bg.case-card-bg-hover {
+            opacity: 0;
+        }
+
+        .case-card:hover .case-card-bg {
+            transform: scale(1.05);
+        }
+
+        .case-card:hover .case-card-bg.case-card-bg-hover {
+            opacity: 1;
+        }
+
+        @media (hover: none) {
+            .case-card .case-card-bg.case-card-bg-hover { opacity: 1; }
+        }
+
+        /* ──────── Case Study Modal ──────── */
+        .case-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.78);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+            z-index: 2000;
+        }
+
+        .case-modal.open {
+            display: flex;
+            animation: modalFade 0.3s ease;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .case-modal-inner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 22px;
+            max-width: 760px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 40px 44px 44px;
+            position: relative;
+        }
+
+        .case-modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .case-modal-close:hover {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .case-modal-tag {
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 12px;
+        }
+
+        .case-modal-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 24px;
+        }
+
+        .case-modal-video {
+            margin-bottom: 28px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid var(--border-color);
+        }
+
+        .case-modal-video video {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .case-modal-slideshow {
+            position: relative;
+            margin-bottom: 28px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid var(--border-color);
+            aspect-ratio: 4 / 3;
+            width: 100%;
+        }
+
+        .case-modal-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.7s ease;
+        }
+
+        .case-modal-slide.active {
+            opacity: 1;
+        }
+
+        .case-modal-slide-dots {
+            position: absolute;
+            bottom: 14px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .case-modal-slide-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: none;
+            padding: 0;
+            background: rgba(255,255,255,0.45);
+            cursor: pointer;
+            transition: background 0.25s ease, transform 0.25s ease;
+        }
+
+        .case-modal-slide-dot.active {
+            background: #fff;
+            transform: scale(1.25);
+        }
+
+        .case-modal-block {
+            margin-bottom: 18px;
+        }
+
+        .case-modal-label {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin-bottom: 6px;
+        }
+
+        .case-modal-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.97rem;
+        }
+
+        /* ──────── Logo cards in portfolio ──────── */
+        .portfolio-grid,
+        .masonry-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .portfolio-card.logo-card {
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 110px !important;
+            height: 110px !important;
+            padding: 18px 28px !important;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 65%),
+                var(--bg-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-card.logo-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: radial-gradient(circle at 50% 50%, var(--accent-glow), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .portfolio-card.logo-card:hover::after {
+            opacity: 1;
+        }
+
+        .portfolio-card.logo-card img {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            opacity: 0.95;
+            transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            z-index: 2;
+            transform-origin: center;
+        }
+
+        .portfolio-card.logo-card:hover img {
+            opacity: 1;
+            transform: scale(1.06);
+        }
+
+        /* Override masonry staggered heights for logo cards - keep them uniform */
+        .masonry-grid .portfolio-card.logo-card,
+        .masonry-grid .portfolio-card.logo-card:nth-child(3n+1),
+        .masonry-grid .portfolio-card.logo-card:nth-child(3n+2),
+        .masonry-grid .portfolio-card.logo-card:nth-child(3n+3) {
+            min-height: 110px !important;
+            height: 110px !important;
+        }
+
+        .bento-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--card-radius);
+            padding: 36px;
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .bento-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bento-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 40px var(--accent-glow);
+        }
+
+        .bento-item.visible:hover {
+            transform: translateY(-4px);
+        }
+
+        .bento-wide { grid-column: span 2; }
+        .bento-tall { grid-row: span 2; }
+        .bento-full { grid-column: span 3; }
+
+        /* ──────── Card Content ──────── */
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-description {
+            color: var(--text-muted);
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+            font-size: 0.95rem;
+        }
+
+        /* ──────── Hero ──────── */
+        .hero-video-card {
+            padding: 0;
+            min-height: 360px;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-video-card video,
+        .hero-video-card img.hero-media {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-video-card.hero-linkedin {
+            min-height: 360px;
+            cursor: pointer;
+        }
+
+        .hero-video-card .hero-video-badge.hero-about-badge {
+            display: inline-flex;
+            width: auto;
+            left: auto;
+            right: 18px;
+            background: rgba(0,0,0,0.55);
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            transition: background 0.25s ease, border-color 0.25s ease;
+        }
+
+        .hero-video-card .hero-video-badge.hero-about-badge:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .founder-block {
+            margin-bottom: 26px;
+            padding-bottom: 26px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .founder-block:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .founder-name {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: -0.01em;
+            margin-bottom: 4px;
+        }
+
+        .founder-role {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 12px;
+        }
+
+        .hero-video-card .hero-video-badge {
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 100px;
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            z-index: 2;
+        }
+
+        /* ──────── CTA Button ──────── */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: -0.01em;
+            text-decoration: none;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(177, 84, 50, 0.3);
+        }
+
+        .cta-button-sub {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* ──────── Project Card (gradient overlay) ──────── */
+        .project-card {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-card) 100%);
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: opacity 0.4s ease;
+            opacity: 0;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        /* ──────── Portfolio Tabs ──────── */
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .tab-pill {
+            padding: 10px 22px;
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-pill:hover {
+            border-color: var(--text-muted);
+            color: var(--text-secondary);
+        }
+
+        .tab-pill.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: tabFade 0.4s ease;
+        }
+
+        @keyframes tabFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Portfolio Grid - uniform */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing);
+        }
+
+        /* Masonry Grid - staggered heights */
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing);
+        }
+
+        .masonry-grid .portfolio-card:nth-child(3n+1) { min-height: 220px; }
+        .masonry-grid .portfolio-card:nth-child(3n+2) { min-height: 180px; }
+        .masonry-grid .portfolio-card:nth-child(3n+3) { min-height: 260px; }
+
+        .portfolio-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 180px;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+
+        /* Each category gets a subtle unique tint */
+        .cat-lifestyle .portfolio-card::before { background: linear-gradient(135deg, rgba(255,107,107,0.08), transparent); }
+        .cat-fashion .portfolio-card::before { background: linear-gradient(135deg, rgba(255,68,255,0.08), transparent); }
+        .cat-decor .portfolio-card::before { background: linear-gradient(135deg, rgba(68,200,255,0.08), transparent); }
+        .cat-fb .portfolio-card::before { background: linear-gradient(135deg, rgba(255,180,68,0.08), transparent); }
+        .cat-wellness .portfolio-card::before { background: linear-gradient(135deg, rgba(68,255,170,0.08), transparent); }
+
+        .portfolio-card:hover::before { opacity: 1; }
+
+        .portfolio-card-name {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .portfolio-category-copy {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            max-width: 650px;
+            font-style: italic;
+        }
+
+        /* ──────── Service Cards ──────── */
+        .service-card {
+            position: relative;
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.2);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .service-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ──────── Startup Pitch ──────── */
+        .pitch-card {
+            background: linear-gradient(135deg, #1a0808 0%, #200e0e 50%, var(--bg-secondary) 100%);
+            border-color: rgba(255, 68, 68, 0.15);
+            text-align: center;
+            padding: 64px 36px;
+        }
+
+        .pitch-card .card-title {
+            font-size: 2rem;
+        }
+
+        .pitch-subtitle {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 24px;
+        }
+
+        .pitch-body {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        /* ──────── Contact ──────── */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing);
+        }
+
+        .contact-image-card {
+            background: linear-gradient(135deg, #1a0a0a, #241010);
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-image-placeholder {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            opacity: 0.3;
+        }
+
+        .contact-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-card .cta-button {
+            width: 100%;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* ──────── Footer ──────── */
+        .footer {
+            text-align: center;
+            padding: 40px 20px 32px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .footer span {
+            color: var(--accent);
+        }
+
+        /* ──────── Animations ──────── */
+        .stagger-1 { transition-delay: 0.05s; }
+        .stagger-2 { transition-delay: 0.1s; }
+        .stagger-3 { transition-delay: 0.15s; }
+        .stagger-4 { transition-delay: 0.2s; }
+        .stagger-5 { transition-delay: 0.25s; }
+        .stagger-6 { transition-delay: 0.3s; }
+        .stagger-7 { transition-delay: 0.35s; }
+        .stagger-8 { transition-delay: 0.4s; }
+
+        /* ──────── Responsive ──────── */
+        @media (max-width: 900px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-grid { grid-template-columns: 1fr 2fr; }
+            .bento-wide { grid-column: span 2; }
+            .bento-full { grid-column: span 2; }
+            .portfolio-grid, .masonry-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .portfolio-card.logo-card,
+            .masonry-grid .portfolio-card.logo-card,
+            .masonry-grid .portfolio-card.logo-card:nth-child(3n+1),
+            .masonry-grid .portfolio-card.logo-card:nth-child(3n+2),
+            .masonry-grid .portfolio-card.logo-card:nth-child(3n+3) {
+                min-height: 110px;
+                height: 110px;
+            }
+            .case-grid { grid-template-columns: repeat(2, 1fr); }
+            .case-card { min-height: 320px; }
+            .section-header h2 { font-size: 1.8rem; }
+            .hero-video-card { min-height: 280px; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 24px 16px; }
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-grid { grid-template-columns: 1fr; }
+            .bento-wide,
+            .bento-full,
+            .bento-tall {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+            .portfolio-grid, .masonry-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .portfolio-card.logo-card,
+            .masonry-grid .portfolio-card.logo-card,
+            .masonry-grid .portfolio-card.logo-card:nth-child(3n+1),
+            .masonry-grid .portfolio-card.logo-card:nth-child(3n+2),
+            .masonry-grid .portfolio-card.logo-card:nth-child(3n+3) {
+                min-height: 96px;
+                height: 96px;
+                padding: 12px 14px;
+            }
+            .case-grid { grid-template-columns: 1fr; }
+            .case-card { min-height: 280px; }
+            .case-modal-inner { padding: 32px 22px; }
+            .case-modal-title { font-size: 1.5rem; }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-video-card { min-height: 240px; }
+            .section-header h2 { font-size: 1.5rem; }
+            .pitch-card { padding: 40px 24px; }
+            .tab-bar { gap: 6px; }
+            .tab-pill { padding: 8px 16px; font-size: 0.82rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ════════════ HERO ════════════ -->
+    <div class="bento-grid hero-grid">
+        <div class="bento-item hero-video-card stagger-1">
+            <img class="hero-media" src="Logo_%20Animation%20(No%20Background).gif" alt="Rirev logo animation">
+        </div>
+        <div class="bento-item hero-video-card hero-linkedin stagger-2"
+             onclick="window.open('https://www.linkedin.com/', '_blank')">
+            <video src="Linkedln.mp4" autoplay muted loop playsinline preload="auto"></video>
+            <button class="hero-video-badge hero-about-badge" id="aboutTrigger" type="button">About us</button>
+        </div>
+    </div>
+
+    <!-- About Us Modal -->
+    <div class="case-modal" id="aboutModal">
+        <div class="case-modal-inner">
+            <button class="case-modal-close" id="aboutModalClose" aria-label="Close">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="case-modal-tag">About</div>
+            <div class="case-modal-title">We built Rirev for the brands that have something worth saying - and needed someone who could actually say it.</div>
+            <div class="case-modal-text" style="margin-bottom: 16px;">Ten years, 100+ clients, and a few hundred reels later, we're still the team that treats your brand like it's the only one we work on. We're Mumbai-based, culturally wired, and built for brands that want to actually mean something to their audience.</div>
+            <div class="case-modal-text" style="margin-bottom: 32px;">We're not an agency that hands you off to a junior team after the pitch. You get sharp thinking at every stage, and creativity that holds up - strategically and aesthetically.</div>
+
+            <div class="case-modal-label" style="margin-bottom: 18px;">The founders</div>
+
+            <div class="founder-block">
+                <div class="founder-name">Ruchita Agarwal</div>
+                <div class="founder-role">Co-Founder · Creative & Strategy Lead</div>
+                <div class="case-modal-text">Everything starts with understanding what a brand is really saying, who it's speaking to, and why it matters. What I bring is the ability to define that clearly and build a strategy that holds across everything the brand does. I'm also an architect, which means I think in systems and structures before I think in aesthetics. It shows in the work.</div>
+            </div>
+
+            <div class="founder-block">
+                <div class="founder-name">Zenobia Jungalwalla</div>
+                <div class="founder-role">Co-Founder · Creative & Strategy Lead</div>
+                <div class="case-modal-text">I'll probably understand your brand before you've finished your first sentence. And I'll tell you things about it you weren't expecting to hear. I bridge the creative and the commercial - building campaigns that look brilliant and strategies that actually work. No fluff. No filler. Just work that moves.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════ CASE STUDIES ════════════ -->
+    <div class="section-header">
+        <h2>Case studies that mean business:</h2>
+        <p>Brands we've taken from zero to a conversation people couldn't ignore.</p>
+    </div>
+
+    <div class="case-grid">
+        <div class="case-card" data-case="mix">
+            <div class="case-card-bg" style="background-image: url('Website%20Assets/Case%20Studies%20/The%20Mix%20(1).jpg');"></div>
+            <div class="case-card-bg case-card-bg-hover" style="background-image: url('Website%20Assets/Case%20Studies%20/The%20Mix%20(2).jpg');"></div>
+        </div>
+
+        <div class="case-card" data-case="luma">
+            <div class="case-card-bg" style="background-image: url('Website%20Assets/Case%20Studies%20/Luma%20fertility%20(1).jpg');"></div>
+            <div class="case-card-bg case-card-bg-hover" style="background-image: url('Website%20Assets/Case%20Studies%20/Luma%20fertility%20(2).jpg');"></div>
+        </div>
+
+        <div class="case-card" data-case="nuher">
+            <div class="case-card-bg" style="background-image: url('Website%20Assets/Case%20Studies%20/NuHer%20(1).jpg');"></div>
+            <div class="case-card-bg case-card-bg-hover" style="background-image: url('Website%20Assets/Case%20Studies%20/NuHer%20(2).jpg');"></div>
+        </div>
+
+        <div class="case-card" data-case="dancing">
+            <div class="case-card-bg" style="background-image: url('Website%20Assets/Case%20Studies%20/Dancing%20Leaf%20(1).jpg');"></div>
+            <div class="case-card-bg case-card-bg-hover" style="background-image: url('Website%20Assets/Case%20Studies%20/Dancing%20Leaf%20(2).jpg');"></div>
+        </div>
+    </div>
+
+    <!-- Case Study Modal -->
+    <div class="case-modal" id="caseModal">
+        <div class="case-modal-inner">
+            <button class="case-modal-close" id="caseModalClose" aria-label="Close">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="case-modal-tag" id="caseModalTag"></div>
+            <div class="case-modal-title" id="caseModalTitle"></div>
+            <div id="caseModalBody"></div>
+        </div>
+    </div>
+
+    <!-- ════════════ PORTFOLIO ════════════ -->
+    <div class="section-header">
+        <h2>Things we've had our hands on:</h2>
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-pill active" data-tab="lifestyle">Lifestyle</button>
+        <button class="tab-pill" data-tab="fashion">Fashion</button>
+        <button class="tab-pill" data-tab="decor">Decor</button>
+        <button class="tab-pill" data-tab="fb">F&B</button>
+        <button class="tab-pill" data-tab="wellness">Wellness</button>
+    </div>
+
+    <!-- Lifestyle - Portfolio Grid -->
+    <div class="tab-content active cat-lifestyle" id="tab-lifestyle">
+        <div class="portfolio-grid">
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Mumbai%20Indians.png" alt="Mumbai Indians"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Book%20my%20Show.png" alt="BookMyShow"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Livingetc.png" alt="Livingetc"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/The%20First%20House.png" alt="The First House"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/The%20Villa%20Escape.png" alt="The Villa Escape"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Bridal%20Asia.png" alt="Bridal Asia"></div>
+        </div>
+    </div>
+
+    <!-- Fashion - Masonry Grid -->
+    <div class="tab-content cat-fashion" id="tab-fashion">
+        <p class="portfolio-category-copy">"We don't follow trends - we give them a voice, a reel, and a reason to hit 'add to cart.'"</p>
+        <div class="masonry-grid">
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/A.K%20.%20Motiwala.png" alt="A.K. Motiwala"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Krishna%20Mehta.png" alt="Krishna Mehta"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Gatim%20Fashion.png" alt="Gatim Fashion"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Eridani.png" alt="Eridani"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Zoy.png" alt="Zoy"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/PoP.png" alt="PoP"></div>
+        </div>
+    </div>
+
+    <!-- Decor - Portfolio Grid -->
+    <div class="tab-content cat-decor" id="tab-decor">
+        <p class="portfolio-category-copy">"From architects to furniture stores, we turn spaces into scroll-worthy stories - one moodboard at a time."</p>
+        <div class="portfolio-grid">
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Lyth.png" alt="Lyth"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Esdee.png" alt="Esdee"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Kubik.png" alt="Kubik"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Pentaspace.png" alt="Pentaspace"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/TTTT.png" alt="This & That"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Taaka.png" alt="Taaka"></div>
+        </div>
+    </div>
+
+    <!-- F&B - Masonry Grid -->
+    <div class="tab-content cat-fb" id="tab-fb">
+        <p class="portfolio-category-copy">"Protein bars, alco beverages, and everything in between. We don't play favourites - we just make them all look good."</p>
+        <div class="masonry-grid">
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Drifters%20beer.png" alt="Drifters Beer"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Phab.png" alt="Phab"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Dancing%20Leaf.png" alt="Dancing Leaf"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Wild%20Drum.png" alt="Wild Drum"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Zorabian.png" alt="Zorabian"></div>
+        </div>
+    </div>
+
+    <!-- Wellness - Portfolio Grid -->
+    <div class="tab-content cat-wellness" id="tab-wellness">
+        <p class="portfolio-category-copy">"From fertility clinics and IV drips to luxury villas and chemical formulas - is there <em>anything</em> we can't brand?"</p>
+        <div class="portfolio-grid">
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Luma.png" alt="Luma"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/NuHer.png" alt="NuHer"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Nuhealth.png" alt="Nuhealth"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Kare%20C.png" alt="Kare C"></div>
+            <div class="portfolio-card logo-card"><img src="Website%20Assets/Client%20Logos/All%20White%20Trimmed/Moushu_s%20Pilates.png" alt="Moushu's Pilates"></div>
+        </div>
+    </div>
+
+    <!-- ════════════ SERVICES ════════════ -->
+    <div class="section-header">
+        <h2>What we do (aka what we're really good at):</h2>
+        <p>We're a full-service content and brand studio. Which means if it needs words, visuals, or strategy - it's in our wheelhouse.</p>
+    </div>
+
+    <div class="bento-grid">
+        <div class="bento-item bento-wide service-card project-card stagger-1">
+            <div class="service-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <h3 class="card-title">Brand Strategy</h3>
+            <p class="service-description">No fluff. Just a voice that actually sounds like you.</p>
+        </div>
+
+        <div class="bento-item service-card project-card stagger-2">
+            <div class="service-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>
+            </div>
+            <h3 class="card-title">Content Creation</h3>
+            <p class="service-description">From moodboards to scripts to reels, we tell tales.</p>
+        </div>
+
+        <div class="bento-item service-card project-card stagger-3">
+            <div class="service-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+            <h3 class="card-title">Social Media Management</h3>
+            <p class="service-description">We post, plan, caption, comment - and maybe meme, if it's on brand.</p>
+        </div>
+
+        <div class="bento-item service-card project-card stagger-4">
+            <div class="service-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.2 16.9-.9-.4"/><path d="m15.2 19.9-.9-.4"/><path d="M16 2v2"/><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.85 1 6.54 2.55"/><path d="M21 2v6h-6"/></svg>
+            </div>
+            <h3 class="card-title">Video & Photo Production</h3>
+            <p class="service-description">Telling stories that stick through shoots, AI or graphics - <em>whatever it takes</em>.</p>
+        </div>
+
+        <div class="bento-item service-card project-card stagger-5">
+            <div class="service-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+            </div>
+            <h3 class="card-title">IP Creation</h3>
+            <p class="service-description">We dream it, design it, and make it trend.</p>
+        </div>
+    </div>
+
+    <!-- ════════════ STARTUP PITCH ════════════ -->
+    <div class="bento-grid" style="margin-top: 20px;">
+        <div class="bento-item bento-wide project-card stagger-1" style="border-color: rgba(177, 84, 50, 0.2);">
+            <h3 class="card-title" style="font-size: 1.8rem; margin-bottom: 4px;">This one's for:</h3>
+            <p style="color: var(--accent); font-family: var(--font-display); font-weight: 500; font-size: 1.05rem; margin-bottom: 20px;">Startups. Founders. Dreamers with messy Google Drives and brilliant ideas.</p>
+            <p class="card-description" style="max-width: 520px;">
+                If you've got the big vision but the brand's still on v0.1... we're your people.
+                We help early-stage brands find their voice, polish their presence, and show up like they've already made it.
+            </p>
+        </div>
+        <div class="bento-item stagger-2" style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
+            <p class="card-description" style="margin-bottom: 24px;">
+                Have an idea that's worth something?
+                Let's make sure everyone else sees it too.
+            </p>
+            <a class="cta-button" href="mailto:ruchita@rirevmarketing.com">
+                Build with us
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+
+    <div id="contact"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span>Rirev</span> Marketing Consultants
+    </div>
+
+</div>
+
+<script>
+    // ─── IntersectionObserver for staggered fade-in ───
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.bento-item').forEach(el => observer.observe(el));
+
+    // ─── Tab Switching ───
+    const pills = document.querySelectorAll('.tab-pill');
+    const tabs = document.querySelectorAll('.tab-content');
+
+    pills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            pills.forEach(p => p.classList.remove('active'));
+            tabs.forEach(t => t.classList.remove('active'));
+            pill.classList.add('active');
+            document.getElementById('tab-' + pill.dataset.tab).classList.add('active');
+        });
+    });
+
+    // ─── Copy Email ───
+    function copyEmail(btn) {
+        navigator.clipboard.writeText('hello@rirev.com').then(() => {
+            const original = btn.textContent;
+            btn.textContent = 'Email Copied!';
+            setTimeout(() => { btn.textContent = original; }, 2000);
+        });
+    }
+
+    // ─── Case Study Modal ───
+    const caseData = {
+        mix: {
+            tag: 'Live Event · Entertainment',
+            title: "The Mix - BookMyShow × Mumbai Indians",
+            video: 'Website%20Assets/Case%20Studies%20/Internal%20pages/mix.mp4',
+            blocks: [
+                ['The brief', "Launch a social media presence for a brand-new event property - from zero - and make Mumbai notice."],
+                ['The challenge', "No existing audience. No brand recognition. A 55-day window. And the pressure of two iconic names (BookMyShow and Mumbai Indians) watching closely."],
+                ['What we did', "We didn't build a content calendar - we built a content engine. Every piece of content was designed to either create anticipation, drive discovery, or capture the live experience as it unfolded - in real time, on the ground. We led with reels because that's where attention lives. We spoke like the community, not like a brand. And when the players showed up, we made them the story."],
+                ['The magic', "Reels-first strategy. Community-first language. Staggered artist reveals. Player-led content. Real-time live coverage. A UGC amplification loop that kept the content alive long after the event ended."],
+                ['The numbers', "0 → 15.6K followers in 30 days. 246M+ total views. 8.3M views on a single reel. 110 native posts. 100% organic. 55 days, start to finish. Event: sold out."]
+            ]
+        },
+        luma: {
+            tag: 'Femtech · Fertility',
+            title: "Luma Fertility - Funded Fertility Brand",
+            slideshow: [
+                'Website%20Assets/Case%20Studies%20/Internal%20pages/Luma/DSC02557.JPG',
+                'Website%20Assets/Case%20Studies%20/Internal%20pages/Luma/DSC08947.JPG',
+                'Website%20Assets/Case%20Studies%20/Internal%20pages/Luma/DSC09525.JPG',
+                'Website%20Assets/Case%20Studies%20/Internal%20pages/Luma/DSC09876.JPG'
+            ],
+            blocks: [
+                ['The brief', "Make a clinical, often stigmatised category feel like something people actually want to talk about."],
+                ['The challenge', "IVF and egg freezing aren't exactly dinner conversation - at least, they weren't. Luma needed to change that, build trust with a skeptical audience, and drive real patient inquiries. All at once."],
+                ['What we did', "We built IPs that gave people a reason to keep coming back. Unspoken Journey - a storytelling series that put real patient voices at the centre, not clinical messaging. Twelve for Herself - a campaign built around the idea of choosing yourself, your timeline, your fertility. Content is King - a content framework that made Luma's doctors feel like thought leaders, not just practitioners. Each IP had its own identity, its own audience hook, and fed into a larger community that grew organically around the brand."],
+                ['The result', "A funded fertility brand that feels like a movement. An engaged community that drives real patient inquiries. And a category that finally has a conversation worth having in India's digital space."]
+            ]
+        },
+        nuher: {
+            tag: "Women's Health · Disruptor · Zenobia Jungalwalla",
+            title: "NuHer - Women's Health Disruptor",
+            video: 'Website%20Assets/Case%20Studies%20/Internal%20pages/NuHer.MP4',
+            blocks: [
+                ['The brief', "Launch a perimenopause and menopause brand in a country where neither word was part of mainstream digital conversation."],
+                ['The challenge', "Zero audience. Zero ad spend. A topic that most Indian brands had completely ignored. And a founder with a powerful story to tell."],
+                ['What we did', "We went 360 - because a brand this important couldn't afford to exist only on one platform. On Instagram, we built founder-led content that felt honest and specific, not polished and generic. On YouTube, we went deeper - long-form content for women who were actively searching for answers and finding nothing. We took it offline too - events that turned followers into a real community, where women could speak about their bodies without having to Google their symptoms at midnight. Every touchpoint was designed to make women feel seen, not sold to."],
+                ['The result', "Organic leads at launch. A community that showed up, shared, and booked. And a conversation around perimenopause and menopause that genuinely didn't exist in India's digital space - until NuHer did."]
+            ]
+        },
+        dancing: {
+            tag: 'F&B · Lifestyle',
+            title: "Dancing Leaf",
+            video: encodeURI('Website Assets/Case Studies /Internal pages/For the ones who light up your Diwali, gift them a moment of calm ☕✨The Synergy Gift Box brings  (2).mp4'),
+            blocks: [
+                ['The brand', 'Curators of Fine Artisanal Teas, Teaware & Luxury Giftware.'],
+                ['The brief', 'Build and run the full marketing engine for a premium tea brand - one that needed to sell a feeling, not just a product.'],
+                ['The challenge', "Tea is personal. The ritual of it, the slowness of it, the way it fits into someone's morning or their gifting or their identity. Generic product-push content would have killed exactly what makes Dancing Leaf worth buying. The brand needed to show up with intention across every channel, every format, every campaign."],
+                ['What we did', 'We took ownership of the full strategy - channel planning, and content planning - so nothing existed in isolation. On social, we built content around the ritual: the warmth of the pour, the considered gift, the quiet moment. Not "buy this tea." More "this is the kind of person you are when you drink it." We brought real customers into the story through a UGC strategy that made the brand feel lived-in and trusted, not just aspirational. And when it was time to convert, the ads were built on the same brand language, so nothing felt like a gear shift.'],
+                ['The result', 'A premium lifestyle brand that shows up consistently, converts meaningfully, and has a community that genuinely wants to talk about it.']
+            ]
+        }
+    };
+
+    const caseModal = document.getElementById('caseModal');
+    const caseModalTag = document.getElementById('caseModalTag');
+    const caseModalTitle = document.getElementById('caseModalTitle');
+    const caseModalBody = document.getElementById('caseModalBody');
+    const caseModalClose = document.getElementById('caseModalClose');
+
+    let slideshowTimer = null;
+
+    function openCase(key) {
+        const c = caseData[key];
+        if (!c) return;
+        caseModalTag.textContent = c.tag;
+        caseModalTitle.textContent = c.title;
+        if (slideshowTimer) { clearInterval(slideshowTimer); slideshowTimer = null; }
+        while (caseModalBody.firstChild) caseModalBody.removeChild(caseModalBody.firstChild);
+        if (c.slideshow && c.slideshow.length) {
+            const wrap = document.createElement('div');
+            wrap.className = 'case-modal-slideshow';
+            c.slideshow.forEach((src, i) => {
+                const slide = document.createElement('div');
+                slide.className = 'case-modal-slide' + (i === 0 ? ' active' : '');
+                slide.style.backgroundImage = `url('${src}')`;
+                wrap.appendChild(slide);
+            });
+            const dots = document.createElement('div');
+            dots.className = 'case-modal-slide-dots';
+            c.slideshow.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = 'case-modal-slide-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => goToSlide(wrap, i));
+                dots.appendChild(dot);
+            });
+            wrap.appendChild(dots);
+            caseModalBody.appendChild(wrap);
+            let idx = 0;
+            slideshowTimer = setInterval(() => {
+                idx = (idx + 1) % c.slideshow.length;
+                goToSlide(wrap, idx);
+            }, 4000);
+        } else if (c.video) {
+            const videoWrap = document.createElement('div');
+            videoWrap.className = 'case-modal-video';
+            const video = document.createElement('video');
+            video.src = c.video;
+            video.controls = true;
+            video.playsInline = true;
+            video.muted = true;
+            video.autoplay = true;
+            video.preload = 'auto';
+            videoWrap.appendChild(video);
+            caseModalBody.appendChild(videoWrap);
+            video.play().catch(() => {});
+        }
+        c.blocks.forEach(([label, text]) => {
+            const block = document.createElement('div');
+            block.className = 'case-modal-block';
+            const labelEl = document.createElement('div');
+            labelEl.className = 'case-modal-label';
+            labelEl.textContent = label;
+            const textEl = document.createElement('div');
+            textEl.className = 'case-modal-text';
+            textEl.textContent = text;
+            block.appendChild(labelEl);
+            block.appendChild(textEl);
+            caseModalBody.appendChild(block);
+        });
+        caseModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function goToSlide(wrap, idx) {
+        const slides = wrap.querySelectorAll('.case-modal-slide');
+        const dots = wrap.querySelectorAll('.case-modal-slide-dot');
+        slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    function closeCase() {
+        caseModal.classList.remove('open');
+        document.body.style.overflow = '';
+        const v = caseModalBody.querySelector('video');
+        if (v) v.pause();
+        if (slideshowTimer) { clearInterval(slideshowTimer); slideshowTimer = null; }
+    }
+
+    document.querySelectorAll('.case-card').forEach(card => {
+        card.addEventListener('click', () => openCase(card.dataset.case));
+    });
+    caseModalClose.addEventListener('click', closeCase);
+    caseModal.addEventListener('click', (e) => { if (e.target === caseModal) closeCase(); });
+
+    const aboutModal = document.getElementById('aboutModal');
+    const aboutTrigger = document.getElementById('aboutTrigger');
+    const aboutModalClose = document.getElementById('aboutModalClose');
+
+    function openAbout() {
+        aboutModal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAbout() {
+        aboutModal.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    aboutTrigger.addEventListener('click', (e) => { e.stopPropagation(); openAbout(); });
+    aboutModalClose.addEventListener('click', closeAbout);
+    aboutModal.addEventListener('click', (e) => { if (e.target === aboutModal) closeAbout(); });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { closeCase(); closeAbout(); }
+    });
+</script>
+
+</body>
+</html>
