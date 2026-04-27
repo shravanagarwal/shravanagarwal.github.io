@@ -461,7 +461,7 @@
             display: block;
         }
 
-        .hero-video-card.hero-linkedin {
+        .hero-video-card.hero-about {
             min-height: 360px;
             cursor: pointer;
         }
@@ -895,10 +895,9 @@
         <div class="bento-item hero-video-card stagger-1">
             <img class="hero-media" src="Logo_%20Animation%20(No%20Background).gif" alt="Rirev logo animation">
         </div>
-        <div class="bento-item hero-video-card hero-linkedin stagger-2"
-             onclick="window.open('https://www.linkedin.com/', '_blank')">
+        <div class="bento-item hero-video-card hero-about stagger-2" id="aboutTrigger">
             <video src="Linkedln.mp4" autoplay muted loop playsinline preload="auto"></video>
-            <button class="hero-video-badge hero-about-badge" id="aboutTrigger" type="button">About us</button>
+            <span class="hero-video-badge hero-about-badge">About us</span>
         </div>
     </div>
 
@@ -1319,7 +1318,7 @@
         document.body.style.overflow = '';
     }
 
-    aboutTrigger.addEventListener('click', (e) => { e.stopPropagation(); openAbout(); });
+    aboutTrigger.addEventListener('click', openAbout);
     aboutModalClose.addEventListener('click', closeAbout);
     aboutModal.addEventListener('click', (e) => { if (e.target === aboutModal) closeAbout(); });
 
